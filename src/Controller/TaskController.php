@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/tasks")
@@ -33,13 +34,16 @@ class TaskController extends AbstractController
     /**
      * @Route("/create", name="task_create", methods={"GET", "POST"})
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $task
+                ->setUser($security->getUser());
             $entityManager->persist($task);
             $entityManager->flush();
 
