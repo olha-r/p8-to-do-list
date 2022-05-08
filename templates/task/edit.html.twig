@@ -1,28 +1,24 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}Edit Task{% endblock %}#}
-
-{#{% block body %}#}
-{#    <h1>Edit Task</h1>#}
-
-{#    {{ include('task/_form.html.twig', {'button_label': 'Update'}) }}#}
-
-{#    <a href="{{ path('app_task_index') }}">back to list</a>#}
-
-{#    {{ include('task/_delete_form.html.twig') }}#}
-{#{% endblock %}#}
-
-
-{#from project original#}
-
 {% extends 'base.html.twig' %}
 
 {% block body %}
     <div class="row">
-        {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
-        {{ form_widget(form) }}
 
-        <button type="submit" class="btn btn-success pull-right">Modifier</button>
-        {{ form_end(form) }}
+        {{ include('task/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+        <a href="{{ path('task_list') }}">Retour à la liste des tâches</a>
+
+        {#    {{ include('task/_delete_form.html.twig') }}#}
+
+
+        {#from project original#}
+{#        {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}#}
+{#        {{ form_widget(form) }}#}
+
+{#        <button type="submit" class="btn btn-success pull-right">Modifier</button>#}
+{#        {{ form_end(form) }}#}
     </div>
 {% endblock %}
+
+
+
+
