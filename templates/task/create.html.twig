@@ -3,9 +3,8 @@
 {% block title %}Nouvelle tâche{% endblock %}
 
 {% block body %}
-    <div class="row">
+    <a href="{{ path('task_list') }}" class="btn btn-info float-right">Retour à la liste des tâches</a>
+    <div class="row task-create-page">
         {{ include('task/_form.html.twig') }}
-
-        <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
     </div>
 {% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un utilisateur{% endblock %}
+
+{% block header_title %}
+    <h1 class="registration-page-content">Créer un utilisateur</h1>
+{% endblock %}
+{% block header_img %}{% endblock %}
+
+{% block body %}
+    <div class="container registration-page-content">
+            {{ form_start(registrationForm) }}
+            {{ form_widget(registrationForm) }}
+{#            {{ form_row(registrationForm.username) }}#}
+{#            {{ form_row(registrationForm.email) }}#}
+{#            {{ form_row(registrationForm.plainPassword, {label: 'Password'}) }}#}
+            <button type="submit" class="btn btn-success btn-register">Ajouter</button>
+            {{ form_end(registrationForm) }}
+
+    </div>
+
+{% endblock %}
+
+
+
+
+
