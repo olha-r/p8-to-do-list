@@ -1,12 +1,4 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-success">{{ button_label|default('Ajouter') }}</button>
+    <button class="btn btn-success float-right btn-create-task">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(form) }}
-
-
-{# from original file #}
-{#{{ form_start(form, {'action' : path('task_create')}) }}#}
-{#            {{ form_widget(form) }}#}
-
-{#<button type="submit" class="btn btn-success pull-right">Ajouter</button>#}
-{#{{ form_end(form) }}#}

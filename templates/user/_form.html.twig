@@ -1,5 +1,7 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+{#    {{ form_widget(form) }}#}
+{{ form_row(form.username, {'label': 'Username'}) }}
+{{ form_row(form.email, {'label': 'Email'}) }}
 {#<button type="submit" class="btn btn-success pull-right">Modifier</button>#}
-    <button class="btn btn-success pull-right">{{ button_label|default('Créer') }}</button>
+    <button class="btn btn-success btn-profile" type="submit">{{ button_label|default('Créer') }}</button>
 {{ form_end(form) }}
