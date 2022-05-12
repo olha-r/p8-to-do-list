@@ -1,21 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SecurityController!{% endblock %}
+{% block title %}Se connecter{% endblock %}
+
+{% block header_title %}
+    <h1 class="login-page-content">Se connecter</h1>
+{% endblock %}
+{% block header_img %}{% endblock %}
 
 {% block body %}
+<div class="container login-page-content">
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
     <form action="{{ path('login') }}" method="post">
+        <div class="form-group">
         <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
-
+        <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"/>
+        </div>
+        <div class="form-group">
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" class="form-control" name="_password"/>
+        </div>
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"/> #}
 
-        <button type="submit">login</button>
+        <button class="btn btn-success btn-login" type="submit">Se connecter</button>
     </form>
+</div>
 {% endblock %}
+
+
+
+{#        <label for="username">Nom d'utilisateur :</label>#}
+{#        <input type="text" id="username" name="_username" value="{{ last_username }}" />#}
+
+

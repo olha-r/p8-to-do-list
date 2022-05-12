@@ -4,13 +4,65 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
-body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+.navbar, .main-content, .homepage-content {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+.main-content {
+    padding: 0;
+    justify-content: center;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+footer p {
+    text-align: end;
+    padding: 0 50px;
+}
+
+/******** NAVBAR ********/
+.nav-item {
+    margin: 0 10px;
+}
+
+/******** HOME PAGE *********/
 .slide-image {
     width: 100%;
 }
+
+.homepage-content {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.homepage-content .btn {
+    width: 350px;
+    margin-top: 30px;
+}
+
+/****** REGISTER PAGE *******/
+.registration-page-content, .login-page-content {
+    width: 600px;
+    margin: 20px auto;
+    padding: 0;
+}
+.btn-register, .btn-login {
+    width: 100%;
+}
+
+
+
+
+
+
 
 .carousel-holder {
     margin-bottom: 30px;
@@ -49,6 +101,3 @@ body {
     color: #333;
 }
 
-footer {
-    margin: 50px 0;
-}
