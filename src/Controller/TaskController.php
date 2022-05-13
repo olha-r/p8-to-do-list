@@ -24,11 +24,31 @@ class TaskController extends AbstractController
     {
         $tasks = $entityManager
             ->getRepository(Task::class)
-            ->findAll();
+            ->findBy(
+                array(
+                    'user' => null
+                )
+            );
+        $myTasks = $this->myList($entityManager);
 
         return $this->render('task/list.html.twig', [
             'tasks' => $tasks,
+            'myTasks' =>$myTasks
         ]);
+
+    }
+
+    public function myList(EntityManagerInterface $entityManager): array
+    {
+        $mytasks = [];
+        if ($this->getUser()) {
+            $mytasks = $entityManager
+                ->getRepository(Task::class)
+                ->findBy(array(
+                    'user' => $this->getUser()
+                ));
+            }
+        return $mytasks;
     }
 
     /**
@@ -58,21 +78,13 @@ class TaskController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route("/{id}", name="app_task_show", methods={"GET"})
-//     */
-//    public function show(Task $task): Response
-//    {
-//        return $this->render('task/show.html.twig', [
-//            'task' => $task,
-//        ]);
-//    }
-
     /**
      * @Route("/{id}/edit", name="task_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('TASK_EDIT', $task, "Vous n'êtes pas le propriétaire de cette tâche");
+
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
@@ -95,6 +107,9 @@ class TaskController extends AbstractController
      */
     public function deleteTask(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
+
+        $this->denyAccessUnlessGranted('TASK_DELETE', $task, "Vous n'êtes pas le propriétaire de cette tâche");
+
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
             $entityManager->remove($task);
             $entityManager->flush();
