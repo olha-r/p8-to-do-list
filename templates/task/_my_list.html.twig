@@ -15,6 +15,7 @@
                     </div>
 
                     <div class="card-btn">
+                        <p class="task-author float-left">{{ task.user.username }}</p>
                         <form action="{{ path('task_toggle', {'id' : task.id }) }}">
                                 {% if not task.isDone %}
                             <button class="btn btn-sm float-right btn-not-done">Marquer comme faite</button>
