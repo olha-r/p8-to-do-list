@@ -2,6 +2,7 @@
 {#    {{ form_widget(form) }}#}
 {{ form_row(form.username, {'label': 'Username'}) }}
 {{ form_row(form.email, {'label': 'Email'}) }}
+{{ form_row(form.roles, {'label': "Roles"}) }}
 {#<button type="submit" class="btn btn-success pull-right">Modifier</button>#}
-    <button class="btn btn-success btn-profile" type="submit">{{ button_label|default('Créer') }}</button>
+    <button class="btn btn-success btn-profile" type="submit">{{ button_label|default('Modifier') }}</button>
 {{ form_end(form) }}

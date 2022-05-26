@@ -95,6 +95,19 @@ footer p {
   background-color: darkorange;
   color: whitesmoke;
 }
+.task-list h4, .task-list a {
+  color: #0056b3;
+}
+
+.task-list a:hover {
+  color: indigo;
+  text-decoration: none;
+}
+
+.task-author {
+  padding: 0 20px;
+  color: gray;
+}
 
 
 

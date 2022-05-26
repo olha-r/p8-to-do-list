@@ -21,11 +21,18 @@
                                 <span><i class="fa-solid fa-hourglass icone-not-done"></i></span>
                             {% endif %}
                         </h4>
-                        <h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
+                        <h4>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('task_edit', {'id' : task.id }) }}">
+                                {% endif %}
+                                {{ task.title }}</a>
+                        </h4>
                         <p>{{ task.content }}</p>
+
                     </div>
 
                     <div class="card-btn">
+                        <p class="task-author float-left">Anonyme</p>
                         <form action="{{ path('task_toggle', {'id' : task.id }) }}">
                                 {% if not task.isDone %}
                             <button class="btn btn-sm float-right btn-not-done">Marquer comme faite</button>
@@ -34,14 +41,17 @@
 
                                 {% endif %}
                         </form>
+                        {% if is_granted('ROLE_ADMIN') %}
                         {{ include('task/_delete_form.html.twig') }}
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
         {% else %}
             <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}"
-                                                             class="btn btn-warning float-right">Créer une tâche</a>
+               <p>Il n'y a pas encore de tâche enregistrée.</p>
+                <a href="{{ path('task_create') }}" class="btn btn-warning float-right">Créer une tâche</a>
             </div>
         {% endfor %}
 
