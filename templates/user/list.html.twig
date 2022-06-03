@@ -27,14 +27,20 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
                         <td>
+                            {% if "ROLE_ADMIN" in user.roles %}
+                            Administrateur
+                            {% else %}
+                                Utilisateur
+                            {% endif %}
                             {# On boucle sur les rôles #}
-                            {% for role in user.roles %}
-                                {% if role == "ROLE_USER" %}
-                                    Utilisateur
-                                {% elseif role == "ROLE_ADMIN" %}
-                                    Administrateur
-                                {% endif %}
-                            {% endfor %}
+{#                            {% for role in user.roles %}#}
+{#                                {{ role }}#}
+{#                                {% if role == "ROLE_ADMIN" %}#}
+{#                                    Administrateur#}
+{#                                {% else  %}#}
+{#                                    Utilisateur#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
                         </td>
                         <td>
                             <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
