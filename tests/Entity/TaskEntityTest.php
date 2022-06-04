@@ -56,18 +56,17 @@ class TaskEntityTest extends KernelTestCase
         $this->assertSame(false, $flag);
     }
 
-    public function testValidNotBlankTitle(): void
-    {
-        $this->task
-            ->setTitle('Title');
-        $validator = Validation::createValidator();
-        $errors = $validator->validate($this->task);
-        $this->assertCount(0, $errors);
-    }
+//    public function testValidNotBlankTitle(): void
+//    {
+//        $this->task
+//            ->setTitle('Title');
+//        $validator = Validation::createValidator();
+//        $errors = $validator->validate($this->task);
+//        $this->assertCount(0, $errors);
+//    }
 
 //    public function testInvalidBlankTitle(): void
 //    {
-//
 //        $this->task
 //            ->setTitle('');
 //        $validator = Validation::createValidator();
@@ -75,15 +74,15 @@ class TaskEntityTest extends KernelTestCase
 //        $this->assertCount(1, $errors);
 //    }
 
-    public function testValidNotBlankContent(): void
-    {
-        $this->task
-            ->setContent('Content');
-        $validator = Validation::createValidator();
-        $errors = $validator->validate($this->task);
-        $this->assertCount(0, $errors);
-    }
-
+//    public function testValidNotBlankContent(): void
+//    {
+//        $this->task
+//            ->setContent('Content');
+//        $validator = Validation::createValidator();
+//        $errors = $validator->validate($this->task);
+//        $this->assertCount(0, $errors);
+//    }
+//
 //    public function testInvalidBlankContent(): void
 //    {
 //        $this->task
