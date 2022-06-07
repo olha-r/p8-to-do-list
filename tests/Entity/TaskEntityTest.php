@@ -5,19 +5,34 @@ namespace App\Tests\Entity;
 use App\Entity\Task;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\ConstraintViolation;
 
 class TaskEntityTest extends KernelTestCase
 {
-    private $task;
-    private $date;
-    private $user;
+
+    private Task $task;
+    private \DateTime $date;
+    private User $user;
 
     public function setUp() :void
     {
         $this->task = new Task();
         $this->date = new \DateTime();
         $this->user = new User();
+    }
+
+    public function assertHasErrors(Task $task, int $number = 0)
+    {
+        self::bootKernel();
+        $errors = self::$container->get("validator")->validate($task);
+
+        $messages = [];
+        /** @var ConstraintViolation $error */
+        foreach ($errors as $error) {
+            $messages[] = $error->getPropertyPath() . '=>' . $error->getMessage();
+        }
+
+        $this->assertCount($number, $errors, implode(', ', $messages));
     }
 
     public function testCreatedAt()
@@ -56,39 +71,28 @@ class TaskEntityTest extends KernelTestCase
         $this->assertSame(false, $flag);
     }
 
-//    public function testValidNotBlankTitle(): void
-//    {
-//        $this->task
-//            ->setTitle('Title');
-//        $validator = Validation::createValidator();
-//        $errors = $validator->validate($this->task);
-//        $this->assertCount(0, $errors);
-//    }
+    public function testValidEntity(): void
+    {
+        $this->task
+            ->setTitle('Title')
+            ->setContent("content");
+        $this->assertHasErrors($this->task);
+    }
 
-//    public function testInvalidBlankTitle(): void
-//    {
-//        $this->task
-//            ->setTitle('');
-//        $validator = Validation::createValidator();
-//        $errors = $validator->validate($this->task);
-//        $this->assertCount(1, $errors);
-//    }
+    public function testInvalidBlankTitle(): void
+    {
+        $this->task
+            ->setTitle('')
+            ->setContent("content");
+        $this->assertHasErrors($this->task, 1);
+    }
 
-//    public function testValidNotBlankContent(): void
-//    {
-//        $this->task
-//            ->setContent('Content');
-//        $validator = Validation::createValidator();
-//        $errors = $validator->validate($this->task);
-//        $this->assertCount(0, $errors);
-//    }
-//
-//    public function testInvalidBlankContent(): void
-//    {
-//        $this->task
-//            ->setContent('');
-//        $validator = Validation::createValidator();
-//        $errors = $validator->validate($this->task);
-//        $this->assertCount(1, $errors);
-//    }
+    public function testInvalidBlankContent()
+    {
+        $this->task->setTitle("title");
+        $this->task->setContent("");
+        $this->assertHasErrors($this->task, 1);
+    }
+
+
 }
