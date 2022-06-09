@@ -7,26 +7,79 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskControllerTest extends WebTestCase
 {
-    public function testTask()
+    public function testTaskListPage()
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/tasks/');
+        $this->assertResponseIsSuccessful();
+
+    }
+
+    public function testMyTaskListPage()
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
+
         // retrieve the test user
-        $testUser = $userRepository->findOneByEmail('admin@gmail.com');
+        $testUser = $userRepository->findOneBy([ 'email' => 'user1@domain.fr']);
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
 
-        // test e.g. the profile page
-        $client->request('GET', '/profile');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Hello John!');
-    }
-
-    public function testTasksListPage(): void
-    {
-        $client = static::createClient();
         $client->request('GET', '/tasks/');
         $this->assertResponseIsSuccessful();
+
     }
+
+
+    public function testCreateTask(): void
+    {
+        $client = static::createClient();
+
+        // test e.g. the profile page
+        $crawler = $client->request('GET', '/tasks/create');
+        $this->assertResponseIsSuccessful();
+
+        $form = $crawler->selectButton('Ajouter')->form([
+            'task[title]' => 'New Task',
+            'task[content]' => 'New Task Content'
+        ]);
+
+        $client->submit($form);
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('div.alert-success', " La tâche a été bien été ajoutée.");
+
+    }
+
+    public function testEditTask(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        // retrieve the test user
+        $testUser = $userRepository->findOneBy([ 'id' => 12]);
+
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+
+
+        $crawler = $client->request('GET', '/tasks/8/edit');
+        $this->assertResponseIsSuccessful();
+
+        $form = $crawler->selectButton('Modifier')->form([
+            'task[title]' => 'Edited Task',
+            'task[content]' => 'Edited Task Content'
+        ]);
+
+        $client->submit($form);
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('div.alert-success', " La tâche a bien été modifiée.");
+
+    }
+
 }
