@@ -2,8 +2,10 @@
 
 namespace App\Tests\Controller;
 
+use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class TaskControllerTest extends WebTestCase
 {
@@ -22,7 +24,7 @@ class TaskControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'email' => 'user1@domain.fr']);
+        $testUser = $userRepository->findOneBy([ 'email' => 'user2@domain.fr']);
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
@@ -79,7 +81,33 @@ class TaskControllerTest extends WebTestCase
         $client->followRedirect();
 
         $this->assertSelectorTextContains('div.alert-success', " La tâche a bien été modifiée.");
+    }
 
+    public function testDeleteTask()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        // retrieve the test user
+        $testUser = $userRepository->findOneBy([ 'id' => 12]);
+
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('POST', '/tasks/8/delete');
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+//        $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a bien été supprimée.");
+    }
+
+    public function testToggleTask()
+    {
+        $client = static::createClient();
+        $task = static::getContainer()->get(TaskRepository::class);
+        $client->request('GET', '/tasks/8/toggle');
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+        $this->assertSelectorExists('div.alert-success');
     }
 
 }

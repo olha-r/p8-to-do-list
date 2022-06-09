@@ -90,12 +90,9 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             $this->addFlash('success', 'La tâche a bien été modifiée.');
-
             return $this->redirectToRoute('task_list', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('task/edit.html.twig', [
             'task' => $task,
             'form' => $form,
@@ -113,11 +110,8 @@ class TaskController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
             $entityManager->remove($task);
             $entityManager->flush();
-
             $this->addFlash('success', 'La tâche a bien été supprimée.');
-
         }
-
         return $this->redirectToRoute('task_list', [], Response::HTTP_SEE_OTHER);
     }
 

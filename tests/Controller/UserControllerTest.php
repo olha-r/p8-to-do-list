@@ -28,7 +28,6 @@ class UserControllerTest extends WebTestCase
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
         //$testAdminUser = $userRepository->findOneByRoles('ROLE_ADMIN'); //by Roles???
 
-
         // simulate $testUser being logged in
         $client->loginUser($testAdminUser);
     }
@@ -37,13 +36,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        // retrieve the test user
-
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
-
-        //$testAdminUser = $userRepository->findOneBy(['roles' => ['ROLE_ADMIN']]); //by Roles???
-
-        // simulate $testUser being logged in
         $client->loginUser($testAdminUser);
 
         $client->request('GET', '/users/');
@@ -55,28 +48,18 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-
-        // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'email' => 'user1@domain.fr']);
-
-        // simulate $testUser being logged in
+        $testUser = $userRepository->findOneBy([ 'email' => 'user2@domain.fr']);
         $client->loginUser($testUser);
-
-        // test e.g. the profile page
-        $client->request('GET', 'users/12');
+        $client->request('GET', 'users/13');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Profile de user1');
+        $this->assertSelectorTextContains('h1', 'Profile de user2');
     }
 
     public function testEditUsers() : void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        // retrieve the test user
-
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
-
-        // simulate $testUser being logged in
         $client->loginUser($testAdminUser);
 
         $crawler = $client->request('GET', '/users/12/edit');
@@ -93,4 +76,17 @@ class UserControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('div.alert-success', "Superbe ! L'utilisateur a bien été modifié");
     }
+
+    public function testDeleteUsers()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
+        $client->loginUser($testAdminUser);
+
+        $crawler = $client->request('POST', '/users/12/delete');
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+    }
+
 }
