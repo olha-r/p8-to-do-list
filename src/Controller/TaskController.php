@@ -24,11 +24,10 @@ class TaskController extends AbstractController
     {
         $tasks = $entityManager
             ->getRepository(Task::class)
-            ->findBy(
-                array(
-                    'user' => null
-                )
-            );
+            ->findBy([
+                    'user' => null,
+                    'isDone' => false
+                    ]);
         $myTasks = $this->myList($entityManager);
 
         return $this->render('task/list.html.twig', [
@@ -44,9 +43,10 @@ class TaskController extends AbstractController
         if ($this->getUser()) {
             $mytasks = $entityManager
                 ->getRepository(Task::class)
-                ->findBy(array(
-                    'user' => $this->getUser()
-                ));
+                ->findBy([
+                    'user' => $this->getUser(),
+                    'isDone' => false
+                ]);
             }
         return $mytasks;
     }
@@ -126,12 +126,33 @@ class TaskController extends AbstractController
      */
     public function toggleTask(Task $task, EntityManagerInterface $entityManager)
     {
-        $task->toggle(!$task->isDone());
-        $entityManager->flush();
+            $task->toggle(!$task->isDone());
+            $entityManager->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        if ($task->isDone()) {
+            $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+            return $this->redirectToRoute('task_list', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme à faire.', $task->getTitle()));
+            return $this->redirectToRoute('tasks_done', [], Response::HTTP_SEE_OTHER);
+        }
 
-        return $this->redirectToRoute('task_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/done", name="tasks_done")
+     */
+    public function doneTasks(EntityManagerInterface $entityManager): Response
+    {
+        $doneTasks = $entityManager
+            ->getRepository(Task::class)
+            ->findBy(
+                ['isDone' => true]
+            );
+
+        return $this->render('task/done_tasks_list.html.twig', [
+            'doneTasks' => $doneTasks
+        ]);
 
     }
 }
