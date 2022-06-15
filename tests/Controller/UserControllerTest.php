@@ -23,12 +23,9 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        // retrieve the test user
 
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
-        //$testAdminUser = $userRepository->findOneByRoles('ROLE_ADMIN'); //by Roles???
 
-        // simulate $testUser being logged in
         $client->loginUser($testAdminUser);
     }
 
