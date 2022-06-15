@@ -39,7 +39,6 @@ class TaskControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // test e.g. the profile page
         $crawler = $client->request('GET', '/tasks/create');
         $this->assertResponseIsSuccessful();
 

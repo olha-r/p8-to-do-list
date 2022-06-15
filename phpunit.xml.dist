@@ -35,6 +35,15 @@
 
     <extensions>
         <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+        <!-- Symfony Panther extension -->
+        <extension class="Symfony\Component\Panther\ServerExtension" />
+        <!-- Blackfire extension -->
+        <extension class="\Blackfire\Bridge\PhpUnit\BlackfireBuildExtension">
+            <arguments>
+                <string><!-- Your environment name or UUID --></string>
+                <string><!-- Name for the build (optional) --></string>
+            </arguments>
+        </extension>
     </extensions>
 
     <!-- Run `composer require symfony/panther` before enabling this extension -->
