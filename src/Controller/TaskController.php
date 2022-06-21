@@ -20,20 +20,25 @@ class TaskController extends AbstractController
     /**
      * @Route("/", name="task_list", methods={"GET"})
      */
-    public function list(EntityManagerInterface $entityManager): Response
+    public function list(EntityManagerInterface $entityManager, Security $security): Response
     {
-        $tasks = $entityManager
-            ->getRepository(Task::class)
-            ->findBy([
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY') == false) {
+            $tasks = $entityManager
+                ->getRepository(Task::class)
+                ->findBy([
                     'user' => null,
                     'isDone' => false
-                    ]);
-        $myTasks = $this->myList($entityManager);
-
-        return $this->render('task/list.html.twig', [
-            'tasks' => $tasks,
-            'myTasks' =>$myTasks
-        ]);
+                ]);
+            return $this->render('task/list.html.twig', [
+                'tasks' => $tasks
+            ]);
+        }
+        else {
+            $myTasks = $this->myList($entityManager);
+            return $this->render('task/list.html.twig', [
+                'myTasks' =>$myTasks
+            ]);
+        }
 
     }
 
