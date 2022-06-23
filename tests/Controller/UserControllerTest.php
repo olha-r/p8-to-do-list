@@ -19,6 +19,7 @@ class UserControllerTest extends WebTestCase
 //        $client->loginUser($testUser);
 //    }
 
+
     public function getClientLoginAsAdmin()
     {
         $client = static::createClient();
@@ -45,11 +46,11 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy([ 'email' => 'user2@domain.fr']);
+        $testUser = $userRepository->findOneBy([ 'email' => 'user1@domain.com']);
         $client->loginUser($testUser);
-        $client->request('GET', 'users/13');
+        $client->request('GET', 'users/33');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Profile de user2');
+        $this->assertSelectorTextContains('h1', 'Profile de User');
     }
 
     public function testEditUsers() : void
@@ -59,12 +60,12 @@ class UserControllerTest extends WebTestCase
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
         $client->loginUser($testAdminUser);
 
-        $crawler = $client->request('GET', '/users/12/edit');
+        $crawler = $client->request('GET', '/users/33/edit');
         $this->assertResponseIsSuccessful();
 
         $form = $crawler->selectButton('Modifier')->form([
-            'user[username]' => 'EditedUser',
-            'user[email]' => 'editeduser@hotmail.fr'
+            'user_profile[username]' => 'EditedUser',
+            'user_profile[email]' => 'editeduser@hotmail.fr'
         ]);
 
         $client->submit($form);
@@ -81,9 +82,11 @@ class UserControllerTest extends WebTestCase
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
         $client->loginUser($testAdminUser);
 
-        $crawler = $client->request('POST', '/users/12/delete');
+        $crawler = $client->request('POST', '/users/33/delete');
         $this->assertResponseRedirects();
         $client->followRedirect();
     }
+
+
 
 }

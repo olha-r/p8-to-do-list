@@ -25,12 +25,14 @@ class RegistrationControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Ajouter')->form([
             'registration_form[username]' => 'User',
-            'registration_form[email]' => 'username@email.com',
+            'registration_form[email]' => 'user1@domain.com',
             'registration_form[password][first]' => 'password',
             'registration_form[password][second]' => 'password'
         ]);
 
+
         $client->submit($form);
+
         $this->assertResponseRedirects();
         $client->followRedirect();
         $this->assertSelectorTextContains('h1', "Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !");
@@ -38,5 +40,10 @@ class RegistrationControllerTest extends WebTestCase
 //        $testUser = static::$container->get(UserRepository::class)->findOneByUsername('User');
 //        $this->assertInstanceOf(User::class,$testUser);
 
+//        $userRepository = static::$container->get(UserRepository::class);
+//        $userCreated = $userRepository->findOneBy(['email'=> 'username16@email.com']);
+//        $crawler = $client->request('POST', '/users/'.$userCreated->getId().'/delete');
+
     }
+
 }

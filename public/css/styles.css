@@ -109,8 +109,18 @@ footer p {
   color: gray;
 }
 
+.profile {
+  width: 500px;
+}
 
+.btn-edit-users {
+  display: inline-flex;
+}
 
+.btn-edit-users .btn {
+  margin-right: 10px;
+  padding: 5px 15px;
+}
 
 .carousel-holder {
   margin-bottom: 30px;

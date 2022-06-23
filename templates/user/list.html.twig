@@ -7,7 +7,7 @@
 {% block body %}
     {% if users|length == 0 %}
         <div class="alert alert-warning" role="alert">
-            Il n'y a pas encore d'utilisateur enregistré. <a href="{{ path('user_create') }}" class="btn btn-warning pull-right">Créer un utilisateur</a>
+            Il n'y a pas encore d'utilisateur enregistré. {#<a href="{{ path('user_create') }}" class="btn btn-warning pull-right">Créer un utilisateur</a>#}
         </div>
     {% else %}
         <div class="row">
@@ -15,9 +15,9 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Nom d'utilisateur</th>
-                    <th>Adresse d'utilisateur</th>
-                    <th>Actions</th>
+                    <th>Username </th>
+                    <th>Adresse</th>
+                    <th>Role</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,18 +32,9 @@
                             {% else %}
                                 Utilisateur
                             {% endif %}
-                            {# On boucle sur les rôles #}
-{#                            {% for role in user.roles %}#}
-{#                                {{ role }}#}
-{#                                {% if role == "ROLE_ADMIN" %}#}
-{#                                    Administrateur#}
-{#                                {% else  %}#}
-{#                                    Utilisateur#}
-{#                                {% endif %}#}
-{#                            {% endfor %}#}
                         </td>
-                        <td>
-                            <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                        <td class="btn-edit-users">
+                            <a href="{{ path('user_modify', {'id' : user.id}) }}" class="btn btn-success btn-sm">Modify role</a>
                                     {{ include('user/_delete_form.html.twig') }}
                         </td>
                     </tr>
