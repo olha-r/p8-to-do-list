@@ -1,0 +1,7 @@
+{{ form_start(userProfileForm) }}
+{#    {{ form_widget(form) }}#}
+{{ form_row(userProfileForm.username, {'label': 'Username'}) }}
+{{ form_row(userProfileForm.email, {'label': 'Email'}) }}
+{#<button type="submit" class="btn btn-success pull-right">Modifier</button>#}
+<button class="btn btn-success btn-profile" type="submit">{{ button_label|default('Modifier') }}</button>
+{{ form_end(userProfileForm) }}

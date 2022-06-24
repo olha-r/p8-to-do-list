@@ -1,17 +1,18 @@
-{#нет в оригинале#}
 {% extends 'base.html.twig' %}
 
 {% block title %}Profile de {{ user.username }}{% endblock %}
 
-{% block header_title %}<h1>Profile de <strong>{{ user.username }}</strong></h1>{% endblock %}
+{% block header_title %}
+    <h1 class="registration-page-content">Profile de <strong>{{ user.username }}</strong></h1>
+{% endblock %}
 {% block header_img %}{% endblock %}
 
 {% block body %}
 
-    <div class="row profile-page">
-            <h4>Username - </h4>
+    <div class="container profile-page">
+            <h4>Username: </h4>
             <p>{{ user.username }}</p>
-            <h4>Email - </h4>
+            <h4>Email: </h4>
             <p>{{ user.email }}</p>
         <a href="{{ path('user_edit', {'id': user.id}) }}" type="button" class="btn btn-primary btn-profile">
             Modifier le profile
