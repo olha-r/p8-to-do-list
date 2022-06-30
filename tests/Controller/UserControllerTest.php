@@ -48,9 +48,9 @@ class UserControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneBy([ 'email' => 'user1@domain.com']);
         $client->loginUser($testUser);
-        $client->request('GET', 'users/33');
+        $client->request('GET', 'users/13');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Profile de User');
+        $this->assertSelectorTextContains('h1', 'Profile de user1');
     }
 
     public function testEditUsers() : void
@@ -60,7 +60,7 @@ class UserControllerTest extends WebTestCase
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
         $client->loginUser($testAdminUser);
 
-        $crawler = $client->request('GET', '/users/33/edit');
+        $crawler = $client->request('GET', '/users/22/edit');
         $this->assertResponseIsSuccessful();
 
         $form = $crawler->selectButton('Modifier')->form([
@@ -82,7 +82,7 @@ class UserControllerTest extends WebTestCase
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
         $client->loginUser($testAdminUser);
 
-        $crawler = $client->request('POST', '/users/33/delete');
+        $crawler = $client->request('POST', '/users/22/delete');
         $this->assertResponseRedirects();
         $client->followRedirect();
     }
