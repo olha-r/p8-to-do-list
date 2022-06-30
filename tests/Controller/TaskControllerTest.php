@@ -24,7 +24,7 @@ class TaskControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'email' => 'user2@domain.fr']);
+        $testUser = $userRepository->findOneBy([ 'email' => 'user3@domain.fr']);
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
@@ -88,12 +88,12 @@ class TaskControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'id' => 12]);
+        $testUser = $userRepository->findOneBy([ 'id' => 13]);
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
 
-        $crawler = $client->request('POST', '/tasks/8/delete');
+        $crawler = $client->request('POST', '/tasks/41/delete');
         $this->assertResponseRedirects();
         $client->followRedirect();
 //        $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a bien été supprimée.");
@@ -103,7 +103,7 @@ class TaskControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $task = static::getContainer()->get(TaskRepository::class);
-        $client->request('GET', '/tasks/8/toggle');
+        $client->request('GET', '/tasks/41/toggle');
         $this->assertResponseRedirects();
         $client->followRedirect();
         $this->assertSelectorExists('div.alert-success');
