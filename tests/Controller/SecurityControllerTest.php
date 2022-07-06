@@ -58,8 +58,8 @@ class SecurityControllerTest extends WebTestCase
         // Check if user is redirected to login page
         $this->assertResponseRedirects();
         $client->followRedirect();
-        $this->assertSelectorTextContains('h1', "Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !");
-        $this->assertSelectorTextContains('.btn.btn-success', "Se connecter");
+        $this->assertSelectorExists('form');
+        $this->assertSelectorTextContains('h1', 'Se connecter');
     }
 
 }

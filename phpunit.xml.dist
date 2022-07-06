@@ -29,7 +29,18 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">src/DataFixtures</directory>
+            <directory suffix=".php">src/Repository</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="reports/html-coverage" lowUpperBound="35" highLowerBound="70"/>
+            <xml outputDirectory="reports/xml-coverage"/>
+<!--            <html outputDirectory="reports/coverage" lowUpperBound="35" highLowerBound="70"/>-->
+<!--            <text outputFile="coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>-->
+        </report>
     </coverage>
+
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
@@ -48,10 +59,15 @@
         </extension>
     </extensions>
 
+
+
     <!-- Run `composer require symfony/panther` before enabling this extension -->
     <!--
     <extensions>
         <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
     -->
+
 </phpunit>
+
+

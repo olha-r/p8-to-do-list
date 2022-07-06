@@ -12,7 +12,7 @@ class TaskFixtures extends Fixture  implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 1; $i < 30; $i++) {
         $user = $this->getReference('user_'. rand( 1, 9 ));
             $task = new Task();
             $task
@@ -22,6 +22,18 @@ class TaskFixtures extends Fixture  implements DependentFixtureInterface
                 ->setUser($user);
             $manager->persist($task);
         }
+//        for ($i = 31; $i < 50; $i++) {
+//            $user = $this->getReference('user_'. rand( 1, 9 ));
+//            $task = new Task();
+//            $task
+//                ->setTitle("Task$i")
+//                ->setContent("Content de task $i")
+//                ->setCreatedAt(new \DateTime())
+//                ->setUser($user)
+//                  ;
+//
+//            $manager->persist($task);
+//        }
         $manager->flush();
     }
     public function getDependencies(): array

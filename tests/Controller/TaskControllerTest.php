@@ -12,36 +12,45 @@ class TaskControllerTest extends WebTestCase
     public function testTaskListPage()
     {
         $client = static::createClient();
-
         $client->request('GET', '/tasks/');
         $this->assertResponseIsSuccessful();
-
     }
 
     public function testMyTaskListPage()
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
-        // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'email' => 'user3@domain.fr']);
-
-        // simulate $testUser being logged in
+        $testUser = static::getContainer()->get(UserRepository::class)->findAll()[0];
         $client->loginUser($testUser);
+//        $userRepository = static::getContainer()->get(UserRepository::class);
+//
+//        // retrieve the test user
+//        $testUser = $userRepository->findOneBy([ 'email' => 'user3@domain.fr']);
+
+//        // simulate $testUser being logged in
+//        $client->loginUser($testUser);
 
         $client->request('GET', '/tasks/');
         $this->assertResponseIsSuccessful();
 
     }
 
+    public function testDoneTaskListPage()
+    {
+        $client = static::createClient();
+        $testUser = static::getContainer()->get(UserRepository::class)->findOneBy([]);
+        $client->loginUser($testUser);
+
+        $task = static::getContainer()->get(TaskRepository::class)->findBy(['isDone' => 'true']);
+
+        $crawler = $client->request('GET', '/tasks/done');
+        $this->assertResponseIsSuccessful();
+    }
 
     public function testCreateTask(): void
     {
         $client = static::createClient();
-
         $crawler = $client->request('GET', '/tasks/create');
         $this->assertResponseIsSuccessful();
-
         $form = $crawler->selectButton('Ajouter')->form([
             'task[title]' => 'New Task',
             'task[content]' => 'New Task Content'
@@ -50,24 +59,24 @@ class TaskControllerTest extends WebTestCase
         $client->submit($form);
         $this->assertResponseRedirects();
         $client->followRedirect();
-
         $this->assertSelectorTextContains('div.alert-success', " La tâche a été bien été ajoutée.");
-
     }
 
     public function testEditTask(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
+//        $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'id' => 12]);
-
+//        $testUser = $userRepository->findOneBy([ 'email' => 'user2@domain.fr']);
         // simulate $testUser being logged in
+//        $client->loginUser($testUser);
+//        $taskRepository = static::getContainer()->get(TaskRepository::class);
+        $testUser = static::getContainer()->get(UserRepository::class)->findAll()[0];
         $client->loginUser($testUser);
 
+        $task = static::getContainer()->get(TaskRepository::class)->findOneBy([]);
 
-        $crawler = $client->request('GET', '/tasks/8/edit');
+        $crawler = $client->request('GET', '/tasks/'.$task->getId().'/edit');
         $this->assertResponseIsSuccessful();
 
         $form = $crawler->selectButton('Modifier')->form([
@@ -85,28 +94,37 @@ class TaskControllerTest extends WebTestCase
     public function testDeleteTask()
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
-        // retrieve the test user
-        $testUser = $userRepository->findOneBy([ 'id' => 13]);
-
-        // simulate $testUser being logged in
+//        $userRepository = static::getContainer()->get(UserRepository::class);
+//
+//        // retrieve the test user
+//        $testUser = $userRepository->findOneBy([ 'id' => 13]);
+//        $client->loginUser($testUser);
+        $testUser = static::getContainer()->get(UserRepository::class)->findOneBy([]);
         $client->loginUser($testUser);
 
-        $crawler = $client->request('POST', '/tasks/41/delete');
+        $task = static::getContainer()->get(TaskRepository::class)->findAll()[0];
+        $crawler = $client->request('POST', '/tasks/'.$task->getId().'/delete');
         $this->assertResponseRedirects();
         $client->followRedirect();
-//        $this->assertSelectorTextContains('div.alert-success', "Superbe ! La tâche a bien été supprimée.");
+//        $this->assertSelectorExists('div.alert-success');
+//        $this->assertSelectorTextContains('div.alert-success', " La tâche a bien été supprimée.");
+
     }
+
 
     public function testToggleTask()
     {
         $client = static::createClient();
-        $task = static::getContainer()->get(TaskRepository::class);
-        $client->request('GET', '/tasks/41/toggle');
+        $task = static::getContainer()->get(TaskRepository::class)->findOneBy(['isDone'=> '0']);
+        $client->request('GET', '/tasks/'.$task->getId().'/toggle');
+        $this->assertResponseRedirects();
+        $client->followRedirect();
+        $this->assertSelectorExists('div.alert-success');
+        $client->request('GET', '/tasks/'.$task->getId().'/toggle');
         $this->assertResponseRedirects();
         $client->followRedirect();
         $this->assertSelectorExists('div.alert-success');
     }
+
 
 }
