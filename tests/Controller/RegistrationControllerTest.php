@@ -24,8 +24,8 @@ class RegistrationControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         $form = $crawler->selectButton('Ajouter')->form([
-            'registration_form[username]' => 'User',
-            'registration_form[email]' => 'user1@domain.com',
+            'registration_form[username]' => 'User12',
+            'registration_form[email]' => 'user112@domain.com',
             'registration_form[password][first]' => 'password',
             'registration_form[password][second]' => 'password'
         ]);

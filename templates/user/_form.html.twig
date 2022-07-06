@@ -2,5 +2,5 @@
 {#    {{ form_widget(form) }}#}
 {{ form_row(userForm.roles, {'label': "Roles"}) }}
 {#<button type="submit" class="btn btn-success pull-right">Modifier</button>#}
-    <button class="btn btn-success btn-profile" type="submit">{{ button_label|default('Modifier') }}</button>
+    <button class="btn btn-success btn-profile" type="submit">{{ button_label|default('Modifier role') }}</button>
 {{ form_end(userForm) }}
