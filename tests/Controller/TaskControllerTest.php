@@ -107,7 +107,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseRedirects();
         $client->followRedirect();
 //        $this->assertSelectorExists('div.alert-success');
-//        $this->assertSelectorTextContains('div.alert-success', " La tâche a bien été supprimée.");
+        $this->assertSelectorTextContains('div.alert-success', " La tâche a bien été supprimée.");
 
     }
 
