@@ -6,7 +6,9 @@
 
 {% block body %}
     <div class="row">
-        <a href="{{ path('task_create') }}" class="btn btn-success btn-create-task">Créer une tâche</a>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('task_create') }}" class="btn btn-success btn-create-task">Créer une tâche</a>
+        {% endif %}
         <a href="{{ path('tasks_done') }}" class="btn btn-secondary btn-create-task">Consulter la liste des tâches terminées</a>
     </div>
 
@@ -52,8 +54,11 @@
             </div>
         {% else %}
             <div class="alert alert-warning" role="alert">
-               <p>Il n'y a pas encore de tâche enregistrée.</p>
-                <a href="{{ path('task_create') }}" class="btn btn-warning float-right">Créer une tâche</a>
+               <p>Il n'y a pas encore de tâche à faire</p>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('task_create') }}" class="btn btn-warning float-right">Créer une tâche</a>
+                {% endif %}
+
             </div>
         {% endfor %}
         {% endif %}
