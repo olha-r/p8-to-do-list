@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\AddUserFormType;
 use App\Form\RegistrationFormType;
 use App\Form\UserProfileType;
 use App\Form\UserType;
@@ -45,7 +44,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/modify", name="user_modify", methods={"GET", "POST"})
+     * @Route("/admin/{id}/modify", name="user_modify", methods={"GET", "POST"})
      */
     public function modifyUserRoles(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {

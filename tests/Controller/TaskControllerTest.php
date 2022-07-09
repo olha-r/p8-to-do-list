@@ -49,6 +49,8 @@ class TaskControllerTest extends WebTestCase
     public function testCreateTask(): void
     {
         $client = static::createClient();
+        $testUser = static::getContainer()->get(UserRepository::class)->findOneBy([]);
+        $client->loginUser($testUser);
         $crawler = $client->request('GET', '/tasks/create');
         $this->assertResponseIsSuccessful();
         $form = $crawler->selectButton('Ajouter')->form([

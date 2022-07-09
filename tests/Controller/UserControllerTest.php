@@ -34,7 +34,7 @@ class UserControllerTest extends WebTestCase
         $testAdminUser = $userRepository->findOneByEmail('admin@gmail.com');
         $client->loginUser($testAdminUser);
 
-        $crawler = $client->request('GET', '/users/2/modify');
+        $crawler = $client->request('GET', '/users/admin/2/modify');
         $this->assertResponseIsSuccessful();
 
         $button = $crawler->selectButton('Modifier role');

@@ -143,11 +143,24 @@ class TaskController extends AbstractController
      */
     public function doneTasks(EntityManagerInterface $entityManager): Response
     {
-        $doneTasks = $entityManager
-            ->getRepository(Task::class)
-            ->findBy(
-                ['isDone' => true]
-            );
+        if ($this->getUser()) {
+            $doneTasks = $entityManager
+                ->getRepository(Task::class)
+                ->findBy([
+                    'user' => $this->getUser(),
+                    'isDone' => true
+                ]);
+        }
+        else {
+            $doneTasks = $entityManager
+                ->getRepository(Task::class)
+                ->findBy(
+                    [
+                        'user' => null,
+                        'isDone' => true
+                    ]
+                );
+        }
 
         return $this->render('task/done_tasks_list.html.twig', [
             'doneTasks' => $doneTasks
